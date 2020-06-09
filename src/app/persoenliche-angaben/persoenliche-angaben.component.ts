@@ -69,6 +69,8 @@ export class PersoenlicheAngabenComponent implements ControlValueAccessor, Valid
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
+    // TODO Currently the 'setDirty' Operation is not working correctly, which causes the errors not to show on the
+    //  child component, when the submit method is called on the parent form.
     return this.form.valid ? {} : {valid: false, message: "form fields are invalid"};
   }
 
