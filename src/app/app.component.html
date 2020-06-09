@@ -4,16 +4,28 @@
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label>Address</mat-label>
       <input formControlName="address" matInput/>
+      <mat-error *ngIf="this.form.controls.address.invalid">
+        Dieses Feld ist nicht valide.
+      </mat-error>
     </mat-form-field>
-    <app-persoenliche-angaben [user]="user" (initialisedForm)="onInitialisedPersoenlicheAngabenForm($event)">
-
-    </app-persoenliche-angaben>
-    <button mat-button type="submit">Submit</button>
+    <app-persoenliche-angaben formControlName="user" [user]="portfolio.user"></app-persoenliche-angaben>
+    <mat-error *ngIf="this.form.controls.user.invalid">
+      Dieses Feld ist nicht valide.
+      {{ this.form.controls.user.errors.message }}
+    </mat-error>
+    <button mat-button type="submit" [disabled]="this.form.invalid">Submit</button>
   </form>
 
-  <div>Is submitted form valid? {{isSubmittedFormValid}}</div>
-  <div>Data: {{submittedData | json}}</div>
 
+  <button mat-button (click)="changeUser()">Change user data from external.</button>
+
+  <pre>
+    Dirty: {{this.form.dirty}}
+    Touched: {{this.form.touched}}
+    Pristine: {{this.form.pristine}}
+    Valid: {{ this.form.valid }}
+    Errors: {{ this.form.errors | json }}
+  </pre>
 
 </div>
 

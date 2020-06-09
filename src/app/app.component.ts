@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../dto/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Portfolio} from '../dto/portfolio';
 
 @Component({
   selector: 'app-root',
@@ -13,35 +14,40 @@ export class AppComponent implements OnInit {
   user: User;
   isSubmittedFormValid: boolean;
   submittedData: any;
+  public portfolio: Portfolio = {
+    address: '',
+    user: {
+      firstName: 'My first name',
+      lastName: 'My way too long invalid last name'
+    }
+  };
 
   constructor(private fb: FormBuilder) {
     this.form = fb.group({
-      address: fb.control('', [Validators.required, Validators.minLength(5)])
+      address: fb.control('', [Validators.required, Validators.minLength(5)]),
+      user: fb.control('', [])
     });
   }
 
   ngOnInit() {
-    const portfolio = {
-      address: 'Random address',
-      user: {
-        firstName: 'My first name',
-        lastName: 'My way too long invalid last name',
-        birthDate: new Date()
-      }
-    };
-    this.form.setValue({
-      address: portfolio.address
-    });
-    this.user = portfolio.user;
+    this.updateValue();
   }
 
+
+  changeUser() {
+    this.portfolio.user.firstName = `Neuer Name: ${Math.random()}`;
+    this.updateValue()
+  }
+
+
+  private updateValue() {
+    this.form.setValue({
+      address: this.portfolio.address,
+      user: this.portfolio.user
+    });
+  }
 
   onSubmit() {
-    this.isSubmittedFormValid = this.form.valid;
-    this.submittedData = this.form.value;
-  }
-
-  onInitialisedPersoenlicheAngabenForm(formGroup: FormGroup) {
-    this.form.addControl('user', formGroup);
+    console.log(`Form valid=${this.form.valid} tried to submit with data: ${JSON.stringify(this.portfolio)}`);
   }
 }

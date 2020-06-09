@@ -1,10 +1,23 @@
-<div [formGroup]="form" class="example-form">
+<ng-container [formGroup]="form" class="example-form">
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>First Name</mat-label>
     <input formControlName="firstName" matInput/>
+    <mat-error *ngIf="this.form.controls.firstName.invalid">
+      Dieses Feld ist nicht valide.
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Last Name</mat-label>
     <input formControlName="lastName" matInput/>
+    <mat-error *ngIf="this.form.controls.lastName.invalid">
+      Dieses Feld ist nicht valide.
+    </mat-error>
   </mat-form-field>
-</div>
+  <pre>
+    Dirty: {{this.form.dirty}}
+    Touched: {{this.form.touched}}
+    Pristine: {{this.form.pristine}}
+    Valid: {{ this.form.valid }}
+    Errors: {{ this.form.errors | json }}
+  </pre>
+</ng-container>
